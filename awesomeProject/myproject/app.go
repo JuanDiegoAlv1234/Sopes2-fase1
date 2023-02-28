@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/shirou/gopsutil/cpu"
+	"os"
 	"syscall"
 	"time"
 )
@@ -38,8 +39,11 @@ func (a *App) ObtenerCPU() string {
 // Greet returns a greeting for the given name
 func (a *App) ObtenerDisco() string {
 	var stat syscall.Statfs_t
-	dir := "/" // Cambia esto a la ruta de la partición que quieres monitorear
-	syscall.Statfs(dir, &stat)
+	wd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	syscall.Statfs(wd, &stat)
 
 	// Calcula el espacio total y el espacio utilizado
 	total := stat.Blocks * uint64(stat.Bsize)
@@ -54,4 +58,124 @@ func (a *App) ObtenerDisco() string {
 	fmt.Printf("Porcentaje de uso: %.2f%%\n", usedPercent)
 
 	return fmt.Sprintf("%f", usedPercent)
+}
+func (a *App) ObtenerTotalDisco() string {
+	var stat syscall.Statfs_t
+	wd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	syscall.Statfs(wd, &stat)
+
+	// Tamaño del bloque en bytes
+	blockSize := stat.Bsize
+
+	// Tamaño total del disco en bytes
+	total := stat.Blocks * uint64(blockSize)
+
+	// Espacio libre en bytes
+	free := stat.Bfree * uint64(blockSize)
+
+	// Espacio usado en bytes
+
+
+	// Tamaño en MB
+	mb := float64(1024 * 1024)
+
+	// Espacio disponible en MB
+	freeMB := float64(free) / mb
+	// Espacio usado en bytes
+	used := (stat.Blocks - stat.Bfree) * uint64(blockSize)
+	// Tamaño total en MB
+	totalMB := float64(total) / mb
+
+	// Porcentaje de uso del disco
+	percentage := float64(used) / float64(total) * 100
+
+	fmt.Printf("Espacio LIBRE: %.2f MB\n", freeMB)
+	fmt.Printf("Espacio total: %.2f MB\n", totalMB)
+	fmt.Printf("Porcentaje de uso: %.2f%%\n", percentage)
+
+	return fmt.Sprintf("%f", totalMB)
+}
+func (a *App) ObtenerDiscoUSO() string {
+	var stat syscall.Statfs_t
+	wd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	syscall.Statfs(wd, &stat)
+
+	// Tamaño del bloque en bytes
+	blockSize := stat.Bsize
+
+	// Tamaño total del disco en bytes
+	total := stat.Blocks * uint64(blockSize)
+
+	// Espacio libre en bytes
+
+
+	// Espacio usado en bytes
+	used := (stat.Blocks - stat.Bfree) * uint64(blockSize)
+
+	// Tamaño en MB
+	mb := float64(1024 * 1024)
+
+	
+	// Tamaño total en MB
+	totalMB := float64(total) / mb
+
+	// Espacio usado en MB
+	usedMB := float64(used) / mb
+
+	// Porcentaje de uso del disco
+	percentage := float64(used) / float64(total) * 100
+
+	fmt.Printf("Espacio USADO: %.2f MB\n", usedMB)
+	fmt.Printf("Espacio total: %.2f MB\n", totalMB)
+	fmt.Printf("Porcentaje de uso: %.2f%%\n", percentage)
+
+	return fmt.Sprintf("%f", usedMB)
+}
+func (a *App) ObtenerDiscoLibre() string {
+	var stat syscall.Statfs_t
+	wd, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	syscall.Statfs(wd, &stat)
+
+	// Tamaño del bloque en bytes
+	blockSize := stat.Bsize
+
+	// Tamaño total del disco en bytes
+	total := stat.Blocks * uint64(blockSize)
+
+	// Espacio libre en bytes
+
+
+	// Espacio libre en bytes
+	free := stat.Bfree * uint64(blockSize)
+	// Espacio usado en bytes
+	used := (stat.Blocks - stat.Bfree) * uint64(blockSize)
+
+	// Tamaño en MB
+	mb := float64(1024 * 1024)
+// Espacio disponible en MB
+freeMB := float64(free) / mb
+	
+	// Tamaño total en MB
+	totalMB := float64(total) / mb
+
+	// Espacio usado en MB
+	usedMB := float64(used) / mb
+
+	// Porcentaje de uso del disco
+	percentage := float64(used) / float64(total) * 100
+
+	fmt.Printf("Espacio USADO: %.2f MB\n", usedMB)
+	fmt.Printf("Espacio total: %.2f MB\n", totalMB)
+	fmt.Printf("Porcentaje de uso: %.2f%%\n", percentage)
+
+	return fmt.Sprintf("%f", freeMB)
 }

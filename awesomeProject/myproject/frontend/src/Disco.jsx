@@ -3,11 +3,22 @@ import { Radio, Grid, Button, Text, Card, Collapse, Input, Row, useModal, Spacer
 import { useContext, useEffect, useState ,useMemo} from 'react'
 import { GraficaDisco } from "./Linechart";
 import { ObtenerDisco } from "../wailsjs/go/main/App";
+import { ObtenerDiscoUSO } from "../wailsjs/go/main/App";
+import { ObtenerTotalDisco } from "../wailsjs/go/main/App";
+import { ObtenerDiscoLibre } from "../wailsjs/go/main/App";
 export const Disco = () => {
     const [resultText, setResultText] = useState("");
-    const [arrDisco,SetArrDisco]=useState([])
     const updateResultText = (result) => setResultText(result);
 
+    const updateResulTotalDisco = (result) => setTotalDisco(result);
+    const updateResulDiscoUso = (result) => setDiscoUSo(result);
+    const updateDIscoLIbre = (result) => setTotalDiscoLibre(result);
+    
+    const [DiscoLibre, setTotalDiscoLibre] = useState("");
+    const [TotalDisco, setTotalDisco] = useState("");
+    const [arrDisco,SetArrDisco]=useState([])
+    const [discoUSO, setDiscoUSo] = useState("");
+  
     useEffect(() => {
 
 
@@ -23,8 +34,14 @@ export const Disco = () => {
 
         return ()=>clearInterval(interval)
     },[arrDisco]);
+    function Totaldisco() {
+        
+    }
     function disco() {
         ObtenerDisco().then(updateResultText);
+        ObtenerTotalDisco().then(updateResulTotalDisco);
+        ObtenerDiscoUSO().then(updateResulDiscoUso)
+        ObtenerDiscoLibre().then(updateDIscoLIbre)
     }
     const labels = ['1', '2', '3', '4', '5', '6', '7','8','9','10'];
     
@@ -65,10 +82,49 @@ export const Disco = () => {
                 </Row>
 
              <Row justify="space-around" align="center">
+             <Text
+                    h1
+                    size={20}
+                    css={{
+                        textGradient: "45deg, white -20%, white 100%",
+                    }}
+                    weight="bold"
+                >
+                    Total de Disco :{TotalDisco}mb
+                 
+                    </Text>
 
               </Row>
 
-            
+
+              <Row justify="space-around" align="center">
+             <Text
+                    h1
+                    size={20}
+                    css={{
+                        textGradient: "45deg, white -20%, white 100%",
+                    }}
+                    weight="bold"
+                >
+                    Almacenamiento utilizado   en el Disco :{discoUSO}mb
+                 
+                    </Text>
+
+              </Row>
+              <Row justify="space-around" align="center">
+             <Text
+                    h1
+                    size={20}
+                    css={{
+                        textGradient: "45deg, white -20%, white 100%",
+                    }}
+                    weight="bold"
+                >
+                    Almacenamiento  disponible   en el Disco :{DiscoLibre}mb
+                 
+                    </Text>
+
+              </Row>
              </Grid>
              <GraficaDisco data={data}></GraficaDisco>
 

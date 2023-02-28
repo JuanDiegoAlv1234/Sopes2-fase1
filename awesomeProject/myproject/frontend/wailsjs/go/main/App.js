@@ -9,3 +9,15 @@ export function ObtenerCPU() {
 export function ObtenerDisco() {
   return window['go']['main']['App']['ObtenerDisco']();
 }
+
+export function ObtenerDiscoLibre() {
+  return window['go']['main']['App']['ObtenerDiscoLibre']();
+}
+
+export function ObtenerDiscoUSO() {
+  return window['go']['main']['App']['ObtenerDiscoUSO']();
+}
+
+export function ObtenerTotalDisco() {
+  return window['go']['main']['App']['ObtenerTotalDisco']();
+}

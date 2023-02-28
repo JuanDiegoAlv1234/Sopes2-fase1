@@ -4,3 +4,9 @@
 export function ObtenerCPU():Promise<string>;
 
 export function ObtenerDisco():Promise<string>;
+
+export function ObtenerDiscoLibre():Promise<string>;
+
+export function ObtenerDiscoUSO():Promise<string>;
+
+export function ObtenerTotalDisco():Promise<string>;
